@@ -1,0 +1,69 @@
+version: "3.9"
+
+services:
+#   cache:
+#     container_name: cache
+#     image: redis:alpine
+#     networks:
+#       - appnet
+#     volumes:
+#       - cachedata:/data
+
+#   db:
+#     container_name: db
+#     environment:
+#       - MYSQL_DATABASE=$MYSQL_DATABASE
+#       - MYSQL_USERNAME=$MYSQL_USERNAME
+#       - MYSQL_PASSWORD=$MYSQL_PASSWORD
+#       - MYSQL_ROOT_PASSWORD=$MYSQL_ROOT_PASSWORD
+#     image: mysql:5.7
+#     networks:
+#       - appnet
+#     ports:
+#     - "3306:3306"
+#     volumes:
+#       - dbdata:/var/lib/mysql
+
+  nginx:
+    build: ./nginx
+    container_name: nginx
+    depends_on:
+      - node
+    environment:
+      - SERVER_NAME=$SERVER_NAME
+      - NODE_PORT=$NODE_PORT
+    image: ottoinfo/nginx
+    networks:
+      - appnet
+    ports:
+    - 80:80
+    - 443:443
+    volumes:
+      - $NGINX_CODEBASE_DIR:/var/www/html
+      - $NGINX_CONF:/etc/nginx/conf.d/
+    working_dir: /var/www/html
+
+  node:
+    build: ./node
+    container_name: node
+    command: yarn start
+    environment:
+      - NODE_ENV=development
+      - PORT=$NODE_PORT
+    image: ottoinfo/node 
+    networks:
+      - appnet
+    volumes:
+      - $NODE_CODEBASE_DIR:/data/src
+    ports:
+      - $NODE_PORT:$NODE_PORT
+
+networks:
+  appnet:
+    driver: bridge
+
+# volumes:
+#   cachedata:
+#     driver: local
+#   dbdata:
+#     driver: local
