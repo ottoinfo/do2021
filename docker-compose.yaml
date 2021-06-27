@@ -46,7 +46,7 @@ services:
   node:
     build: ./node
     container_name: node
-    command: yarn start
+    command: yarn dev
     environment:
       - NODE_ENV=development
       - PORT=$NODE_PORT

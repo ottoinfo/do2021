@@ -6,7 +6,7 @@ RUN mkdir -p /data/src
 WORKDIR /data/src
 COPY . .
 
-EXPOSE 3000
+EXPOSE 3000 9229
 
 RUN yarn
 CMD yarn start

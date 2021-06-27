@@ -26,3 +26,4 @@ REPOSITORY                     TAG       IMAGE ID       CREATED          SIZE
 ottoinfo/node                  latest    b63ef0a4d226   11 seconds ago   113MB
 ottoinfo/nginx                 latest    c1846879e071   8 minutes ago    22.6MB
 ```
+
