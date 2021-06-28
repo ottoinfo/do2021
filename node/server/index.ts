@@ -10,16 +10,18 @@ import unknownRouteMiddleware from './middleware/unknownRoute'
 import nextRoutes from './routes'
 import template from './template'
 
-const isDevelopment = process.env.NODE_ENV !== 'production'
-const port = process.env.PORT || 3000
-const dev = process.env.NODE_ENV !== 'production'
-const nextJS = next({ dev })
+
+const {NODE_ENV, PORT} = process.env
+const isDevelopment = NODE_ENV !== 'production'
+const port = PORT || 3000
+const nextJS = next({ dev: isDevelopment })
 
 nextJS.prepare().then(() => {
   const server = express()
   if (!isDevelopment) {
     server.use(compression())
   }
+  console.log({ isDevelopment, NODE_ENV, PORT })
   server.use(cookieParser())
   server.use(attacksMiddleware)
   // server.use(
